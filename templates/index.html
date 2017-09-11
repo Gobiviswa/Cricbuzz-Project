@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>CricBuzz</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="ananymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/app.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css"">
+
+
+</head>
+
+<body ng-app="IPLapp">
+
+<div class="container">
+<div class="page-header">
+<h1>Cricket Updates</h1>
+<h3>
+Get Previews , Live Scores and Completed match details here
+</h3>
+</div>
+</div>
+
+<!-- main controller starts -->
+<div ng-controller="mainCtrl" class="container">
+    <div>
+        <button class="btn btn-primary"                 ng-click="change('home')">Home</button>
+        <button class="btn btn-primary" ng-click="change('live')">Live Score</button>
+        <button class="btn btn-primary"                                         ng-click="change('preview')">Preview matches</button>
+        <button class="btn btn-primary"                                         ng-click="change('result')">Results</button>
+        
+    </div>
+</div>
+<!-- main controller ends -->
+
+
+<!-- home controller starts -->
+<div ng-controller="homeCtrl" class="container" ng-show = boolFactory.home>
+    <p class="homecontenttitle">Welcome !!!</p>
+</div>
+<!-- home controller ends -->
+
+
+<!-- preview controller starts -->
+<div ng-controller="previewCtrl" class="container"  ng-show = boolFactory.preview style="margin-top:20px">
+
+    <div class ="row">
+        <div class ="col-sm-4" ng-repeat="match in dbFactory">
+            <div class = "well well-sm" >
+
+                <p><strong>Teams :   </strong>[[match.Description]]</p>
+                <p><strong>Match Number :   </strong>[[match.MatchNumber]]</p>
+                <p><strong>Result :   </strong>[[match.Result]]</p>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- preview controller ends -->
+
+<!-- live controller starts -->
+<div ng-controller="liveCtrl" class="container" ng-show = boolFactory.live style="margin-top:20px">
+        <button class="btn btn-default btn-sm glyphicon glyphicon-refresh pull-right"  ng-click="reloadPage(data)" ng-show = boolFactory.refresh>
+            <b>Refresh</b>
+        </button>
+
+    <div class="row">
+
+        
+        <div class="col-sm-4">
+        
+            <div ng-repeat="data in dbFactory">
+                <br>
+                <button class="btn btn-warning btn-lg" style="width:250px" ng-click="scorecard(data)">[[data.matchdesc]]</button>
+                <br>
+            </div>
+
+        </div>
+        
+        <div class="col-sm-8" ng-show=boolFactory.scorecardBool>
+            
+            
+            <div style="margin-left:19px;margin-top:20px;background-color:rgb(204, 204, 255);width:80%">
+            <span>
+                <strong style=" color:rgb(0, 0, 0) ; margin-left:15px ; font-size:25px ">[[data.batteam]]</strong>
+                <strong style=" color:rgb(0, 0, 0) ; margin-left:15px ; font-size:20px ">[[data.totalruns]] /</strong>
+                <strong style=" color:rgb(0, 0, 0) ; margin-left:2px ; font-size:20px ">[[data.wickets]]</strong>
+                <strong style="margin-left:25px;color:rgb(0, 0, 102); font-size:20px">Overs : [[data.overs]]</strong>
+                <strong class="pull-right" style="margin-right:200px;margin-top:10px;color:rgb(0, 0, 102);font-size:16px">CRR :[[data.runrate]]</strong>
+
+                
+            </span>
+            </div>
+            <table>
+
+            <tr>
+                <th style="width:45%">Batting</th>
+                <th style="width:15%">Runs</th>
+                <th style="width:15%">Balls</th>
+                <th style="width:15%">Fours</th>
+                <th style="width:15%">sixes</th>
+            </tr>
+
+            <tr ng-repeat="bat in data.batcard">
+                <td>[[bat.name]]</td>
+                <td>[[bat.runs]]</td>
+                <td>[[bat.balls]]</td>
+                <td>[[bat.fours]]</td>
+                <td>[[bat.six]]</td>
+            </tr>
+
+        </table>
+
+        <div style="margin-left:19px;margin-top:20px;background-color:rgb(204, 204, 255);width:80%">
+            <span>
+                <img src="[[data.bowlteamimg]]">
+                <strong style=" color:rgb(0, 0, 0) ; margin-left:15px ; font-size:25px ">[[data.bowlteam]]</strong>
+                
+            </span>
+        </div>
+
+        <table>
+
+            <tr>
+                <th style="width:41%">Bowling</th>
+                <th style="width:15%">Overs</th>
+                <th style="width:15%">Maidens</th>
+                <th style="width:15%">Runs</th>
+                <th style="width:15%">Wickets</th>
+            </tr>
+
+            <tr ng-repeat="bowl in data.bowlcard">
+                <td>[[bowl.name]]</td>
+                <td>[[bowl.overs]]</td>
+                <td>[[bowl.maidens]]</td>
+                <td>[[bowl.runs]]</td>
+                <td>[[bowl.wickets]]</td>
+            </tr>
+
+        </table>
+
+        
+        </div>
+
+    </div>
+
+</div>
+<!-- live controller ends -->
+
+<!-- result controller starts -->
+<div ng-controller="resultCtrl" class="container" ng-show = boolFactory.result " style="margin-top:20px">
+
+    <div class ="row">
+        <div class ="col-sm-4" ng-repeat="match in dbFactory">
+            <div class = "well well-sm" >
+
+                <p><strong>Teams :   </strong>[[match.Description]]</p>
+                <p><strong>Match Number :   </strong>[[match.MatchNumber]]</p>
+                <p><strong>Result :   </strong>[[match.Result]]</p>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- result controller ends -->
+
+
+
+</body>
+
+</html>
+
+​
