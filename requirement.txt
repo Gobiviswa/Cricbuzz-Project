@@ -1,0 +1,26 @@
+Requirements:
+=============
+
+1. Python
+
+I have used both 2.7 and 3.6 versions of python in this project. I used Anaconda to switch over between Python versions.
+
+
+2. flask
+
+In this project, I used the version 0.12.1 of flask. We can install the flask using pip command "pip install flask"
+
+
+3. Pycricbuzz
+
+This the package I used to extract the data from Cricbuzz API which is built on Pythons BeautifulSoup Built-in Library. My thanks for the creater...
+(I am thinking to do my own library for this purpose in the future using BeautifulSoup. Try it, it is awesome!!!)
+
+4.MongoDB
+
+I have used MongoDB 3.4.4 version. and in my programming I have used pymongo Library to acces the MOngoDB using Python.
+(Everywhere it is python, yes I love it!!!)
+
+
+
+
